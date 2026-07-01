@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 function Dashboard() {
@@ -9,9 +9,17 @@ function Dashboard() {
     const [loading, setLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [inputMode, setInputMode] = useState("url");
+    const [transcript, setTranscript] = useState([]);
 
+    useEffect(() => {
+        if (!iframeUrl) return;
 
-    const handleUrl = () => {
+        return () => {
+            URL.revokeObjectURL(iframeUrl);
+        };
+    }, [iframeUrl]);
+
+    const handleUrl = async () => {
 
         setLoading(true);
         setError(null);
@@ -33,11 +41,17 @@ function Dashboard() {
 
                 const preview = URL.createObjectURL(selectedFile);
                 setIframeUrl(preview);
+                setInputMode("file");
+
 
                 console.log("Process uploaded file");
 
                 return;
+
+            } else {
+                setInputMode("url");
             }
+
 
 
 
@@ -135,6 +149,37 @@ function Dashboard() {
             }
 
             generateEmbedURL(videoId);
+
+
+            async function handleTranscription() {
+                const response = await fetch("http://127.0.0.1:5000/transcribe", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        url: urlPlacer
+                    })
+                })
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || "Something went wrong");
+                }
+
+                setTranscript(data.transcript);
+            };
+            await handleTranscription();
+
+
+
+
+
+
+
+
+
         } catch (err) {
             showError("Something went wrong.");
         } finally {
@@ -276,11 +321,36 @@ function Dashboard() {
                     </div>
 
 
-                    <div className="  mt-5 h-150 p-5 overflow-x-scroll scrollbar-none">
+                    <div>
+                        {activeTab === "verdicts" && (
+                            <div className="  mt-5 h-150 p-5 overflow-x-scroll scrollbar-none ">
+                                <div>
+                                    <p className="text-yellow-500"> Kisan keval annadata nahi urjadata banega,  heye ouri sarkar ki soch hai.  Aar isi liye,  abhme august maine me,  Toyota company ki gadi wo ko launch kar raho.  Aap ko pata hoga kemri kar ke gadi thi.  O innovae,  Aap sab gadi aak kisan ho ne thayar keve ihthanal prachalegi.  Saad prasne ihthanal,  40% dijli,  uska agar average pakla jai ga,  to pandra rupe litre petrol ka bhao hoga,  janata ka bhao hoga,  kisan urjadata banega,  desh ka pradushan ka mhoga,  import ka mhoga,  sola lock crore rupe ka import hai,  uske bhaiye hai paisa kisan ho ke ghar me jai ga,  gao sambhrut da sambhan na banege,  gao ke kisan ke betu ko rojgaar me lega. </p>
+                                </div>
 
+                            </div>
+                        )}
 
+                        {activeTab === "transcript" && (
+                            <div className="space-y-4 mt-5 h-150 p-5 overflow-x-scroll scrollbar-none ">
+                                {transcript.map((segment) => (
+                                    <div
+                                        key={segment.id}
+                                        className="border-b border-zinc-700 pb-3"
+                                    >
+                                        <p className="text-sky-400 text-sm font-medium">
+                                            {segment.start.toFixed(2)}s - {segment.end.toFixed(2)}s
+                                        </p>
+
+                                        <p className="text-gray-300 leading-7 mt-2">
+                                            {segment.text}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+
+                        )}
                     </div>
-
                 </div>
             </div>
         </div>
