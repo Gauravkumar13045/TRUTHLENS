@@ -382,7 +382,7 @@ function Dashboard() {
                                 {analysis ? (
 
                                     <>
-                                        <div className="rounded-2xl border border-amber-500/25 bg-gradient-to-br from-amber-500/10 to-transparent p-6">
+                                        <div className="rounded-2xl border border-amber-500/25 bg-linear-to-br from-amber-500/10 to-transparent p-6">
 
                                             <p className="text-[11px] uppercase tracking-[0.18em] text-amber-400 font-bold">
                                                 Overall Verdict
@@ -422,7 +422,7 @@ function Dashboard() {
 
                                             <div
                                                 key={index}
-                                                className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+                                                className="rounded-2xl border border-white/10 bg-white/3 p-5"
                                             >
 
                                                 <div className="flex justify-between items-start gap-4">
