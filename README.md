@@ -29,7 +29,7 @@ TruthLens automatically downloads the audio from a YouTube video, transcribes it
 
 
 <p align="center">
-  <img src="./frontend/public/WhatsApp Image 2026-07-03 at 7.58.02 PM.jpeg" width="1000" alt="TruthLens Preview">
+  <img src="./frontend/public/Screenshot 2026-07-03 203817.png" width="1000" alt="TruthLens Preview">
 </p>
 
 
