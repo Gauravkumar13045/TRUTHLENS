@@ -22,12 +22,18 @@ TruthLens automatically downloads the audio from a YouTube video, transcribes it
 
 ## 📸 Preview
 
-> Add screenshots here
 
-```
-frontend/public/screenshots/home.png
-frontend/public/screenshots/result.png
-```
+
+
+
+
+
+<p align="center">
+  <img src="./frontend/public/WhatsApp Image 2026-07-03 at 7.58.02 PM.jpeg" width="1000" alt="TruthLens Preview">
+</p>
+
+
+
 
 ---
 
